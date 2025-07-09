@@ -8,7 +8,8 @@ import (
 
 type StreamSender interface {
 	Send(payload []byte) error
-	Get(key string) (string, error)
+	Get() (string, error)
+	Delete(id string) error
 }
 
 type ExampleService struct {
@@ -17,10 +18,6 @@ type ExampleService struct {
 
 func NewExampleService(sender StreamSender) *ExampleService {
 	return &ExampleService{streamSender: sender}
-}
-
-func (s *ExampleService) ExampleBusinessLogic() string {
-	return "business logic result"
 }
 
 func (s *ExampleService) CreatePayment(input model.CreatePaymentInput) *model.CreatePaymentOutput {
@@ -42,7 +39,7 @@ func (s *ExampleService) CreatePayment(input model.CreatePaymentInput) *model.Cr
 }
 
 func (s *ExampleService) GetPaymentSummary() model.PaymentSummaryOutput {
-	summary, err := s.streamSender.Get("4a7901b8-7d26-4d9d-aa19-4dc1c7cf60g3")
+	summary, err := s.streamSender.Get()
 	if err != nil {
 		return model.PaymentSummaryOutput{}
 	}

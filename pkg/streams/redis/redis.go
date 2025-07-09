@@ -26,7 +26,7 @@ func (r *RedisStreamSender) Send(payload []byte) error {
 	return err
 }
 
-func (r *RedisStreamSender) Get(key string) (string, error) {
+func (r *RedisStreamSender) Get() (string, error) {
 	ctx := context.Background()
 	res, err := r.client.XRead(ctx, &redis.XReadArgs{
 		Streams: []string{"payments", "0"},
@@ -39,4 +39,15 @@ func (r *RedisStreamSender) Get(key string) (string, error) {
 
 	json, _ := json.Marshal(res)
 	return string(json), nil
+}
+
+func (r *RedisStreamSender) Delete(id string) error {
+	ctx := context.Background()
+
+	_, err := r.client.XDel(ctx, "payments", id).Result()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

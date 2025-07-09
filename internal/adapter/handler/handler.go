@@ -15,18 +15,12 @@ type Handler struct {
 
 func RegisterRoutes(r *gin.Engine, h *Handler) {
 	r.GET("/ping", h.Ping)
-	r.GET("/business", h.Business)
 	r.POST("/payments", h.CreatePayment)
 	r.GET("/payments-summary", h.PaymentSummary)
 }
 
 func (h *Handler) Ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "pong"})
-}
-
-func (h *Handler) Business(c *gin.Context) {
-	result := h.Service.ExampleBusinessLogic()
-	c.JSON(http.StatusOK, gin.H{"result": result})
 }
 
 func (h *Handler) CreatePayment(c *gin.Context) {

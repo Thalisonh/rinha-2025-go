@@ -8,9 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 	"github.com/thalisonh/rinha-go/internal/adapter/handler"
-	"github.com/thalisonh/rinha-go/internal/adapter/streams/kafka"
-	redisService "github.com/thalisonh/rinha-go/internal/adapter/streams/redis"
 	"github.com/thalisonh/rinha-go/internal/domain/service"
+	"github.com/thalisonh/rinha-go/pkg/streams/kafka"
+	redisService "github.com/thalisonh/rinha-go/pkg/streams/redis"
 	"gopkg.in/Shopify/sarama.v1"
 )
 
@@ -55,7 +55,7 @@ func main() {
 
 	handler.RegisterRoutes(r, h)
 
-	r.Run(":8080")
+	r.Run(":9999")
 }
 
 var redisClient *redis.Client
