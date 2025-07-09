@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -23,4 +24,19 @@ func (r *RedisStreamSender) Send(payload []byte) error {
 		},
 	}).Result()
 	return err
+}
+
+func (r *RedisStreamSender) Get(key string) (string, error) {
+	ctx := context.Background()
+	res, err := r.client.XRead(ctx, &redis.XReadArgs{
+		Streams: []string{"payments", "0"},
+		Count:   100,
+		Block:   300,
+	}).Result()
+	if err != nil {
+		return "", err
+	}
+
+	json, _ := json.Marshal(res)
+	return string(json), nil
 }

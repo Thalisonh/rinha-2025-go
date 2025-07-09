@@ -40,3 +40,7 @@ func getEnv(key, fallback string) string {
 	}
 	return fallback
 }
+
+func (k *KafkaStreamSender) Get(key string) (string, error) {
+	return "", nil
+}

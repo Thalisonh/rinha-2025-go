@@ -37,8 +37,8 @@ func (h *Handler) CreatePayment(c *gin.Context) {
 	}
 
 	input := model.CreatePaymentInput{
-		Amount:      req.Amount,
-		Description: req.Description,
+		Amount:        req.Amount,
+		CorrelationID: req.CorrelationID,
 	}
 
 	output := h.Service.CreatePayment(input)

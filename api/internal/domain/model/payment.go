@@ -1,8 +1,8 @@
 package model
 
 type CreatePaymentInput struct {
-	Amount      float64
-	Description string
+	Amount        float64
+	CorrelationID string
 }
 
 type CreatePaymentOutput struct {
