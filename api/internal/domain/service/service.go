@@ -1,13 +1,21 @@
 package service
 
-import "github.com/thalisonh/rinha-go/internal/domain/model"
+import (
+	"encoding/json"
 
-// Aqui ficam as regras de negócio (domain service)
+	"github.com/thalisonh/rinha-go/internal/domain/model"
+)
 
-type ExampleService struct{}
+type StreamSender interface {
+	Send(payload []byte) error
+}
 
-func NewExampleService() *ExampleService {
-	return &ExampleService{}
+type ExampleService struct {
+	streamSender StreamSender
+}
+
+func NewExampleService(sender StreamSender) *ExampleService {
+	return &ExampleService{streamSender: sender}
 }
 
 func (s *ExampleService) ExampleBusinessLogic() string {
@@ -15,6 +23,8 @@ func (s *ExampleService) ExampleBusinessLogic() string {
 }
 
 func (s *ExampleService) CreatePayment(input model.CreatePaymentInput) model.CreatePaymentOutput {
+	payload, _ := json.Marshal(input)
+	_ = s.streamSender.Send(payload)
 	// Lógica de negócio fictícia
 	return model.CreatePaymentOutput{
 		ID:     "1",
